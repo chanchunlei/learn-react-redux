@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import TodoListUI from './TodoListUI';
 import store from './store/index'
-import { initListAction, getInputChangeAction, getAddItemAction, getDeleteItemAction } from './store/actionCreators';
-import axios from 'axios';
+import { getInitList, getInputChangeAction, getAddItemAction, getDeleteItemAction } from './store/actionCreators';
+
 
 class TodoList extends Component {
     constructor(props) {
         super(props);
-        this.state = store.getState();
+        this.state = store.getState(); //获取store中的数据
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleBtnClick = this.handleBtnClick.bind(this);
         this.handleItemDelete = this.handleItemDelete.bind(this);
@@ -27,11 +27,9 @@ class TodoList extends Component {
         )
     }
     componentDidMount() {
-        axios.get('/api/todolist').then((res) => {
-            const data = res.data;
-            const action = initListAction(data);
-            store.dispatch(action);
-        })
+
+        const action = getInitList();
+        store.dispatch(action)
     }
 
     handleInputChange(e) {
